@@ -1,13 +1,8 @@
-import sqlite3
+from database import list_books
 
-print("Opening database...")
+books = list_books()
 
-with sqlite3.connect("books.db") as connection:
-    print("Connected.")
+print(f"Found {len(books)} books")
 
-    cursor = connection.execute("SELECT * FROM books")
-
-    for row in cursor:
-        print(row)
-
-print("Connection closed.")
+for book in books:
+    print(f"ID: {book[0]} | Title: {book[1]} | Author: {book[2]}")

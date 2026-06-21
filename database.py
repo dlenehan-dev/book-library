@@ -1,15 +1,31 @@
 import sqlite3
 
-connection = sqlite3.connect("books.db")
 
-connection.execute("""
-INSERT INTO books (title, author)
-VALUES ('The Hobbit', 'J.R.R. Tolkien')
-""")
+def add_book(title, author):
+    with sqlite3.connect("books.db") as connection:
+        connection.execute(
+            """
+            INSERT INTO books (title, author)
+            VALUES (?, ?)
+            """,
+            (title, author)
+        )
 
 
-connection.commit()
+def list_books():
+    with sqlite3.connect("books.db") as connection:
+        cursor = connection.execute(
+            """
+            SELECT * FROM books
+            """
+        )
 
-print("insert complete")
+        return cursor.fetchall()
+    
+def format_book(book):
+    return (
+        f"ID: {book[0]} | "
+        f"Title: {book[1]} | "
+        f"Author: {book[2]}"
 
-connection.close()
+    )
