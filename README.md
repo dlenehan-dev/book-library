@@ -4,22 +4,20 @@ A simple Python application that stores books using SQLite.
 
 ## Features
 
-- Create SQLite database
-- Create books table
-- Insert books
-- View stored books
+- Add books
+- List books
+- Format output
+- Menu system
+- Unit tests with pytest
 
 ## Technologies
 
 - Python 3.13
 - SQLite3
 
-## Learning Goals
+## Learning Focus
 
-This project is helping me learn:
-
-- Databases
-- SQL
-- Context managers
-- Functions
-- Python project structure
+- SQLite integration
+- Function separation
+- Basic testing
+- CLI structure
