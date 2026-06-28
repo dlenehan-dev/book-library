@@ -1,7 +1,5 @@
-from database import format_book
+from database import format_book, is_valid_book
 
-
-from database import format_book
 
 def test_format_book():
     book = (1, "The Hobbit", "J.R.R. Tolkien")
@@ -9,5 +7,19 @@ def test_format_book():
     result = format_book(book)
 
     assert result == (
-        "ID: 1 | Title: The Hobbit | Author: J.R.R. Tolkien"
+        "ID: 1 | "
+        "Title: The Hobbit | "
+        "Author: J.R.R. Tolkien"
     )
+
+
+def test_valid_book():
+    assert is_valid_book("Dune", "Frank Herbert") is True
+
+
+def test_empty_title():
+    assert is_valid_book("", "Frank Herbert") is False
+
+
+def test_empty_author():
+    assert is_valid_book("Dune", "") is False

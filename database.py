@@ -23,9 +23,15 @@ def list_books():
         return cursor.fetchall()
     
 def format_book(book):
-    return (
-        f"ID: {book[0]} | "
-        f"Title: {book[1]} | "
-        f"Author: {book[2]}"
+    book_id = book[0]
+    title = book[1]
+    author = book[2]
 
-    )
+    return f"ID: {book_id} | Title: {title} | Author: {author}"
+
+
+def is_valid_book(title, author):
+    return title.strip() != "" and author.strip() != ""
+
+
+
