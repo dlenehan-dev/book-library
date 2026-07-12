@@ -1,4 +1,4 @@
-from database import format_book, is_valid_book
+from database import format_book, is_valid_book, get_book_by_id
 
 
 def test_format_book():
@@ -23,3 +23,9 @@ def test_empty_title():
 
 def test_empty_author():
     assert is_valid_book("Dune", "") is False
+
+
+def test_get_book_by_id_not_found():
+    result = get_book_by_id(999)
+
+    assert result is None
