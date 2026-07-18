@@ -1,4 +1,6 @@
-from database import format_book, is_valid_book, get_book_by_id
+from database import get_book_by_id, update_book 
+from ui import format_book 
+from validation import is_valid_book 
 
 
 def test_format_book():
@@ -29,3 +31,14 @@ def test_get_book_by_id_not_found():
     result = get_book_by_id(999)
 
     assert result is None
+
+def test_update_book():
+    assert update_book(1,"The Hobbit Returns", "J.K. Tolkien") is True 
+    updated_book = get_book_by_id(1)
+    assert updated_book is not None
+    _, title, author = updated_book
+    assert title == "The Hobbit Returns"
+    assert author == "J.K. Tolkien"
+
+    assert update_book(999,"a","b") is False
+    

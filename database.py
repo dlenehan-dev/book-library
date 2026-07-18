@@ -1,8 +1,27 @@
 import sqlite3
 
+DATABASE_NAME = "books.db"
+
+def get_connection(database_name=DATABASE_NAME) -> sqlite3.Connection:
+    return sqlite3.connect(DATABASE_NAME)
+
+
+def initialise_database(database_name=DATABASE_NAME):
+    with get_connection() as connection:
+        connection.execute(
+            """
+        create table if not exists books(
+            id INTEGER PRIMARY KEY,
+            title TEXT,
+            author TEXT
+        );
+        """
+        )
+        connection.commit()
+        
 
 def add_book(title, author):
-    with sqlite3.connect("books.db") as connection:
+    with get_connection() as connection:
         connection.execute(
             """
             INSERT INTO books (title, author)
@@ -13,7 +32,7 @@ def add_book(title, author):
         connection.commit()
 
 def list_books():
-    with sqlite3.connect("books.db") as connection:
+    with get_connection() as connection:
         cursor = connection.execute(
             """
             SELECT * FROM books
@@ -22,20 +41,9 @@ def list_books():
 
         return cursor.fetchall()
     
-def format_book(book):
-    book_id = book[0]
-    title = book[1]
-    author = book[2]
-
-    return f"ID: {book_id} | Title: {title} | Author: {author}"
-
-
-def is_valid_book(title, author):
-    return title.strip() != "" and author.strip() != ""
-
 
 def get_book_by_id(book_id):
-    with sqlite3.connect("books.db") as connection:
+    with get_connection() as connection:
         cursor = connection.execute(
             "SELECT * FROM books WHERE id = ?",
             (book_id,)
@@ -45,7 +53,7 @@ def get_book_by_id(book_id):
     
     
 def delete_book(book_id):
-    with sqlite3.connect("books.db") as connection:
+    with get_connection() as connection:
         cursor = connection.execute(
             "DELETE FROM books WHERE id = ?",
             (book_id,)
@@ -53,4 +61,21 @@ def delete_book(book_id):
         connection.commit()
 
         return cursor.rowcount
+    
+
+def update_book(book_id: int, title: str, author: str) -> bool:
+    with get_connection() as connection:
+        cursor = connection.execute(
+           """
+           UPDATE books
+             SET title = ?,
+                 author = ?
+           WHERE id = ?
+           """,
+          (title, author, book_id)
+)
+
+        connection.commit()
+
+        return cursor.rowcount > 0 
 
