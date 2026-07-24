@@ -3,11 +3,11 @@ import sqlite3
 DATABASE_NAME = "books.db"
 
 def get_connection(database_name=DATABASE_NAME) -> sqlite3.Connection:
-    return sqlite3.connect(DATABASE_NAME)
+    return sqlite3.connect(database_name)
 
 
 def initialise_database(database_name=DATABASE_NAME):
-    with get_connection() as connection:
+    with get_connection(database_name) as connection:
         connection.execute(
             """
         create table if not exists books(
